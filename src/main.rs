@@ -20,17 +20,18 @@ fn main() -> ! {
     let cp = cortex_m::Peripherals::take().unwrap();
     let mut syst = cp.SYST;
     syst.set_clock_source(SystClkSource::Core);
-    syst.set_reload(4_000_000);
+    syst.set_reload(8_000);
     syst.enable_counter();
 
-    let mut p = pal::PAL::new();
+    let mut p = pal::Pal::new();
 
-    p.led_lcd.off();
     loop {
         while !syst.has_wrapped() {}
 
         if p.btn1_left.is_pressed() {
-            p.led_usr.toggle();
+            p.led_usr.on();
+        } else {
+            p.led_usr.off();
         }
     }
 }

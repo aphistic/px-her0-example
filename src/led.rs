@@ -4,9 +4,12 @@ use hal::gpio;
 use hal::gpio::gpiob::PB12;
 use hal::gpio::gpioh::PH0;
 
+// Define some types for our peripherals so we can refer to them
+// with a useful name instead of just GPIO pins.
 pub type LEDLCD = PB12<gpio::Output<gpio::PushPull>>;
 pub type LEDUSR = PH0<gpio::Output<gpio::PushPull>>;
 
+// Define a macro we can use to create all the Into impls we need
 macro_rules! into_led {
     ($($pin:ident),+) => {
         $(
@@ -20,8 +23,11 @@ macro_rules! into_led {
         )+
     }
 }
+// Define the Into impls for LEDLCD and LEDUSR
 into_led!(LEDLCD, LEDUSR);
 
+// Define the actual Led struct! This seems deceptively straightforward
+// compared to the other code.
 pub struct Led<PIN: StatefulOutputPin> {
     p: PIN,
 }

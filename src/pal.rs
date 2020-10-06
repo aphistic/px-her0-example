@@ -13,7 +13,7 @@ use stm32l0xx_hal::{prelude::*, pac, rcc::Config};
 use crate::button;
 use crate::led;
 
-pub struct PAL {
+pub struct Pal {
     pub led_usr: led::Led<led::LEDUSR>,
     pub led_lcd: led::Led<led::LEDLCD>,
     
@@ -25,7 +25,7 @@ pub struct PAL {
     pub btn6_no: button::Button<button::BTN6>,
 }
 
-impl PAL {
+impl Pal {
     pub fn new() -> Self {
         let dp = pac::Peripherals::take().unwrap();
 
@@ -37,7 +37,7 @@ impl PAL {
         let gpioc = dp.GPIOC.split(&mut rcc);
         let gpioh = dp.GPIOH.split(&mut rcc);
 
-        PAL{
+        Pal{
             led_usr: gpioh.ph0.into_push_pull_output().into(),
             led_lcd: gpiob.pb12.into_push_pull_output().into(),
 
